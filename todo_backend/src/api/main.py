@@ -1,10 +1,21 @@
 from __future__ import annotations
 
+import logging
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.db import init_db
+from src.api.db import init_db, DB_URL
 from src.api.routers_tasks import router as tasks_router
+
+# Configure basic logging early
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(
+    level=LOG_LEVEL,
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+)
+logger = logging.getLogger("todo_backend.main")
 
 app = FastAPI(
     title="Todo Backend",
@@ -38,7 +49,9 @@ def on_startup() -> None:
     No parameters.
     Returns: None
     """
+    logger.info("App startup: initializing DB", extra={"db_url": DB_URL})
     init_db()
+    logger.info("App startup complete. Service is ready.")
 
 
 # PUBLIC_INTERFACE
