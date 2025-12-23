@@ -28,14 +28,31 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup() -> None:
-    """Initialize database on startup."""
+    """
+    Initialize database on FastAPI application startup.
+
+    This hook ensures that the SQLite database and required tables are present
+    before the API begins handling requests. It calls src.api.db.init_db(),
+    which creates the 'tasks' table if it does not already exist.
+
+    No parameters.
+    Returns: None
+    """
     init_db()
 
 
 # PUBLIC_INTERFACE
 @app.get("/", tags=["Health"], summary="Health Check")
 def health_check():
-    """Simple health check endpoint."""
+    """
+    Health check endpoint.
+
+    Returns a simple JSON payload indicating the service is healthy.
+    Useful for readiness/liveness probes.
+
+    Returns:
+        dict: {"message": "Healthy"}
+    """
     return {"message": "Healthy"}
 
 
