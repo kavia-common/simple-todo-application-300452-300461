@@ -36,7 +36,16 @@ OpenAPI docs available at `/docs` and `/openapi.json`.
 - To customize the database location, set the `DATABASE_URL` environment variable to a valid SQLAlchemy SQLite URL.
   - Relative/local file example: `sqlite:///./data/todo.db`
   - Absolute path example (recommended when pointing to an external/shared database file): `sqlite:////absolute/path/to/myapp.db`
-- When integrating with the separate database container, point `DATABASE_URL` to the absolute file path of the SQLite database provided by that container (e.g., from its `db_connection.txt`). Do not hardcode paths—use the value provided by the environment or that file.
+- Integration with the database container:
+  1. Open `simple-todo-application-300452-300463/database/db_connection.txt`.
+  2. Copy either the “Connection string” value (preferred) or the “File path” value.
+     - If you copied the file path, prepend `sqlite:////` to form the SQLAlchemy URL.
+  3. Set `DATABASE_URL` in `.env` accordingly. Example:
+     ```
+     DATABASE_URL=sqlite:////home/kavia/workspace/code-generation/simple-todo-application-300452-300463/database/myapp.db
+     ```
+  4. Restart the backend.
+  Do not hardcode paths in code—use environment configuration.
 
 ## Environment variables
 
